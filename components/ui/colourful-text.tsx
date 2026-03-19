@@ -66,7 +66,7 @@ export default function ColourfulText({ text }: { text: string }) {
       </motion.span>
     );
             })}
-            {wordIndex < words.length - 1 && <span className="inline"> </span>}
+            {wordIndex < words.length - 1 && <span className="inline">&nbsp;</span>}//ads spacing on colorful text.txt
           </span>
         );
       })}

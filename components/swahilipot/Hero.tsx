@@ -81,7 +81,7 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
 
             {/* Overlay */}
             <div className="absolute inset-0 bg-[#6A1383]/10 -z-10 h-[400px] md:h-[500px]" />
-            
+
             {/* Bottom blur gradient */}
             <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                 <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
@@ -92,10 +92,11 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
             <div className="container-custom section-padding relative z-10">
                 <div className="max-w-3xl mx-auto md:mx-0">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                        <span>We Believe In</span>
+                        <span></span>
                         <br />
-                        <ColourfulText text="Empowering Future " />
-                        <Cover>Innovators</Cover>
+                        <ColourfulText text="We Empower Future " />
+                        <br/>
+                        <Cover>  Innovators</Cover>
                     </h1>
 
                     <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -109,7 +110,7 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
                                 Learn More
                             </Link>
                         </Button>
-                        
+
                     </div>
                 </div>
             </div>
