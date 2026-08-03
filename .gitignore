@@ -51,3 +51,6 @@ coverage/
 # Sanity
 .sanity/
 node_modules
+
+# Chat session exports (contain real visitor conversations)
+chat-sessions*.md

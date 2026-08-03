@@ -13,14 +13,45 @@
  */
 
 // Source: schema.json
-export type Partner = {
+export type ChatSession = {
   _id: string;
-  _type: "partner";
+  _type: "chatSession";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  logo?: {
+  sessionId?: string;
+  messageCount?: number;
+  toolsUsed?: Array<string>;
+  firstMessage?: string;
+  messages?: Array<{
+    role?: string;
+    content?: string;
+    _key: string;
+  }>;
+  timestamp?: string;
+};
+
+export type PageView = {
+  _id: string;
+  _type: "pageView";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  path?: string;
+  referrer?: string;
+  userAgent?: string;
+  deviceType?: "desktop" | "mobile" | "tablet";
+  sessionId?: string;
+  timestamp?: string;
+};
+
+export type ContactHeroImage = {
+  _id: string;
+  _type: "contactHeroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -32,10 +63,7 @@ export type Partner = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  website?: string;
-  tier?: "platinum" | "gold" | "silver" | "bronze" | "community";
-  description?: string;
-  order?: number;
+  isActive?: boolean;
 };
 
 export type SanityImageCrop = {
@@ -54,6 +82,365 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
+export type ProjectsHeroImage = {
+  _id: string;
+  _type: "projectsHeroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+  isActive?: boolean;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  cardImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  heroImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  sections?: Array<{
+    badge?: string;
+    title?: string;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "section";
+    _key: string;
+  }>;
+  order?: number;
+  isActive?: boolean;
+  aiContext?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  designation?: string;
+  quote?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+  isActive?: boolean;
+  aiContext?: string;
+};
+
+export type ImpactStat = {
+  _id: string;
+  _type: "impactStat";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  value?: string;
+  label?: string;
+  description?: string;
+  iconName?: "Projects" | "Learners" | "Mentors" | "KenyaCounty";
+  order?: number;
+  isActive?: boolean;
+  aiContext?: string;
+};
+
+export type ImpactHeroImage = {
+  _id: string;
+  _type: "impactHeroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  isActive?: boolean;
+};
+
+export type ProgramItem = {
+  _id: string;
+  _type: "programItem";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  program?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "programsPage";
+  };
+  title?: string;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  ctaText?: string;
+  ctaLink?: string;
+  order?: number;
+  isActive?: boolean;
+  aiContext?: string;
+};
+
+export type ProgramsPage = {
+  _id: string;
+  _type: "programsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  href?: string;
+  iconName?: "Code" | "Shield" | "Bot" | "Film" | "Gamepad2" | "Monitor";
+  isAnimationTraining?: boolean;
+  svgImages?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  order?: number;
+  isActive?: boolean;
+  heroImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  aiContext?: string;
+};
+
+export type ProgramsHeroImage = {
+  _id: string;
+  _type: "programsHeroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  isActive?: boolean;
+};
+
+export type EventsHeroImage = {
+  _id: string;
+  _type: "eventsHeroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  isActive?: boolean;
+};
+
+export type HeroImage = {
+  _id: string;
+  _type: "heroImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+  isActive?: boolean;
+};
+
+export type Partner = {
+  _id: string;
+  _type: "partner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+};
+
 export type TeamMember = {
   _id: string;
   _type: "teamMember";
@@ -62,12 +449,6 @@ export type TeamMember = {
   _rev: string;
   name?: string;
   role?: string;
-  department?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "department";
-  };
   bio?: string;
   image?: {
     asset?: {
@@ -85,6 +466,7 @@ export type TeamMember = {
   twitter?: string;
   order?: number;
   isActive?: boolean;
+  aiContext?: string;
 };
 
 export type IndustrialAttachment = {
@@ -119,12 +501,6 @@ export type IndustrialAttachment = {
   courseName?: string;
   yearOfStudy?: "year-1" | "year-2" | "year-3" | "year-4" | "year-5" | "year-6";
   expectedGraduationYear?: number;
-  department?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "department";
-  };
   whatMakesYouStandOut?: string;
   aboutYourself?: string;
   communityEngagement?: string;
@@ -146,13 +522,7 @@ export type Course = {
   _updatedAt: string;
   _rev: string;
   name?: string;
-  certification?:
-    | "certificate"
-    | "diploma"
-    | "degree"
-    | "postgraduate"
-    | "short-course"
-    | "other";
+  certification?: "certificate" | "diploma" | "degree" | "postgraduate" | "short-course" | "other";
   institution?: {
     _ref: string;
     _type: "reference";
@@ -169,54 +539,38 @@ export type LearningInstitution = {
   _rev: string;
   name?: string;
   type?: "university" | "tvet" | "college" | "high-school" | "other";
-  county?:
-    | "Mombasa"
-    | "Kwale"
-    | "Kilifi"
-    | "Tana River"
-    | "Lamu"
-    | "Taita-Taveta"
-    | "Garissa"
-    | "Wajir"
-    | "Mandera"
-    | "Marsabit"
-    | "Isiolo"
-    | "Meru"
-    | "Tharaka-Nithi"
-    | "Embu"
-    | "Kitui"
-    | "Machakos"
-    | "Makueni"
-    | "Nyandarua"
-    | "Nyeri"
-    | "Kirinyaga"
-    | "Murang'a"
-    | "Kiambu"
-    | "Turkana"
-    | "West Pokot"
-    | "Samburu"
-    | "Trans-Nzoia"
-    | "Uasin Gishu"
-    | "Elgeyo-Marakwet"
-    | "Nandi"
-    | "Baringo"
-    | "Laikipia"
-    | "Nakuru"
-    | "Narok"
-    | "Kajiado"
-    | "Kericho"
-    | "Bomet"
-    | "Kakamega"
-    | "Vihiga"
-    | "Bungoma"
-    | "Busia"
-    | "Siaya"
-    | "Kisumu"
-    | "Homa Bay"
-    | "Migori"
-    | "Kisii"
-    | "Nyamira"
-    | "Nairobi";
+  county?: "Mombasa" | "Kwale" | "Kilifi" | "Tana River" | "Lamu" | "Taita-Taveta" | "Garissa" | "Wajir" | "Mandera" | "Marsabit" | "Isiolo" | "Meru" | "Tharaka-Nithi" | "Embu" | "Kitui" | "Machakos" | "Makueni" | "Nyandarua" | "Nyeri" | "Kirinyaga" | "Murang'a" | "Kiambu" | "Turkana" | "West Pokot" | "Samburu" | "Trans-Nzoia" | "Uasin Gishu" | "Elgeyo-Marakwet" | "Nandi" | "Baringo" | "Laikipia" | "Nakuru" | "Narok" | "Kajiado" | "Kericho" | "Bomet" | "Kakamega" | "Vihiga" | "Bungoma" | "Busia" | "Siaya" | "Kisumu" | "Homa Bay" | "Migori" | "Kisii" | "Nyamira" | "Nairobi";
+};
+
+export type CareerApplication = {
+  _id: string;
+  _type: "careerApplication";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  career?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "career";
+  };
+  fullName?: string;
+  email?: string;
+  resume?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+  linkedinUrl?: string;
+  githubUrl?: string;
+  note?: string;
+  isReviewed?: boolean;
+  isArchived?: boolean;
 };
 
 export type Career = {
@@ -227,12 +581,6 @@ export type Career = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  department?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "department";
-  };
   description?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -253,16 +601,13 @@ export type Career = {
   }>;
   requirements?: Array<string>;
   responsibilities?: Array<string>;
+  openTo?: Array<string>;
+  growthOpportunities?: Array<string>;
   location?: string;
-  type?: "full-time" | "part-time" | "contract" | "internship" | "volunteer";
+  type?: "full-time" | "part-time" | "contract" | "internship" | "volunteer" | "attachment";
   deadline?: string;
   isActive?: boolean;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
+  aiContext?: string;
 };
 
 export type Event = {
@@ -309,18 +654,37 @@ export type Event = {
   isVirtual?: boolean;
   registrationLink?: string;
   isFeatured?: boolean;
+  aiContext?: string;
 };
 
-export type Program = {
+export type Post = {
   _id: string;
-  _type: "program";
+  _type: "post";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
+  title?: string;
   slug?: Slug;
-  shortDescription?: string;
-  description?: Array<{
+  excerpt?: string;
+  mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishedAt?: string;
+  author?: {
+    name?: string;
+    image?: string;
+  };
+  body?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -338,52 +702,7 @@ export type Program = {
     _type: "block";
     _key: string;
   }>;
-  department?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "department";
-  };
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  features?: Array<string>;
-  isActive?: boolean;
-  order?: number;
-};
-
-export type Department = {
-  _id: string;
-  _type: "department";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  icon?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  order?: number;
+  aiContext?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -482,175 +801,5 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes =
-  | Partner
-  | SanityImageCrop
-  | SanityImageHotspot
-  | TeamMember
-  | IndustrialAttachment
-  | Course
-  | LearningInstitution
-  | Career
-  | Slug
-  | Event
-  | Program
-  | Department
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityImageMetadata
-  | SanityFileAsset
-  | SanityAssetSourceData
-  | SanityImageAsset
-  | Geopoint;
+export type AllSanitySchemaTypes = ChatSession | PageView | ContactHeroImage | SanityImageCrop | SanityImageHotspot | ProjectsHeroImage | Project | Slug | Testimonial | ImpactStat | ImpactHeroImage | ProgramItem | ProgramsPage | ProgramsHeroImage | EventsHeroImage | HeroImage | Partner | TeamMember | IndustrialAttachment | Course | LearningInstitution | CareerApplication | Career | Event | Post | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./lib/sanity/queries/categories.ts
-// Variable: ALL_CATEGORIES_QUERY
-// Query: *[  _type == "category"] | order(title asc) {  _id,  title,  "slug": slug.current,  "image": image{    asset->{      _id,      url    },    hotspot  }}
-export type ALL_CATEGORIES_QUERYResult = Array<never>;
-// Variable: CATEGORY_BY_SLUG_QUERY
-// Query: *[  _type == "category"  && slug.current == $slug][0] {  _id,  title,  "slug": slug.current,  "image": image{    asset->{      _id,      url    },    hotspot  }}
-export type CATEGORY_BY_SLUG_QUERYResult = null;
-
-// Source: ./lib/sanity/queries/customers.ts
-// Variable: CUSTOMER_BY_EMAIL_QUERY
-// Query: *[  _type == "customer"  && email == $email][0]{  _id,  email,  name,  clerkUserId,  stripeCustomerId,  createdAt}
-export type CUSTOMER_BY_EMAIL_QUERYResult = null;
-// Variable: CUSTOMER_BY_STRIPE_ID_QUERY
-// Query: *[  _type == "customer"  && stripeCustomerId == $stripeCustomerId][0]{  _id,  email,  name,  clerkUserId,  stripeCustomerId,  createdAt}
-export type CUSTOMER_BY_STRIPE_ID_QUERYResult = null;
-
-// Source: ./lib/sanity/queries/orders.ts
-// Variable: ORDERS_BY_USER_QUERY
-// Query: *[  _type == "order"  && clerkUserId == $clerkUserId] | order(createdAt desc) {  _id,  orderNumber,  total,  status,  createdAt,  "itemCount": count(items),  "itemNames": items[].product->name,  "itemImages": items[].product->images[0].asset->url}
-export type ORDERS_BY_USER_QUERYResult = Array<never>;
-// Variable: ORDER_BY_ID_QUERY
-// Query: *[  _type == "order"  && _id == $id][0] {  _id,  orderNumber,  clerkUserId,  email,  items[]{    _key,    quantity,    priceAtPurchase,    product->{      _id,      name,      "slug": slug.current,      "image": images[0]{        asset->{          _id,          url        }      }    }  },  total,  status,  address{    name,    line1,    line2,    city,    postcode,    country  },  stripePaymentId,  createdAt}
-export type ORDER_BY_ID_QUERYResult = null;
-// Variable: RECENT_ORDERS_QUERY
-// Query: *[  _type == "order"] | order(createdAt desc) [0...$limit] {  _id,  orderNumber,  email,  total,  status,  createdAt}
-export type RECENT_ORDERS_QUERYResult = Array<never>;
-// Variable: ORDER_BY_STRIPE_PAYMENT_ID_QUERY
-// Query: *[  _type == "order"  && stripePaymentId == $stripePaymentId][0]{ _id }
-export type ORDER_BY_STRIPE_PAYMENT_ID_QUERYResult = null;
-
-// Source: ./lib/sanity/queries/products.ts
-// Variable: ALL_PRODUCTS_QUERY
-// Query: *[  _type == "product"] | order(name asc) {  _id,  name,  "slug": slug.current,  description,  price,  "images": images[]{    _key,    asset->{      _id,      url    },    hotspot  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock,  featured}
-export type ALL_PRODUCTS_QUERYResult = Array<never>;
-// Variable: FEATURED_PRODUCTS_QUERY
-// Query: *[  _type == "product"  && featured == true  && stock > 0] | order(year desc, name asc) [0...6] {  _id,  name,  "slug": slug.current,  description,  price,  "images": images[]{    _key,    asset->{      _id,      url    },    hotspot  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FEATURED_PRODUCTS_QUERYResult = Array<never>;
-// Variable: PRODUCTS_BY_CATEGORY_QUERY
-// Query: *[  _type == "product"  && category->slug.current == $categorySlug] | order(year desc, name asc) {  _id,  name,  "slug": slug.current,  price,  "image": images[0]{    asset->{      _id,      url    },    hotspot  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  transmission,  origin,  stock}
-export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<never>;
-// Variable: PRODUCT_BY_SLUG_QUERY
-// Query: *[  _type == "product"  && slug.current == $slug][0] {  _id,  name,  "slug": slug.current,  description,  price,  "images": images[]{    _key,    asset->{      _id,      url    },    hotspot  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock,  featured}
-export type PRODUCT_BY_SLUG_QUERYResult = null;
-// Variable: SEARCH_PRODUCTS_QUERY
-// Query: *[  _type == "product"  && (    name match $searchQuery + "*"    || description match $searchQuery + "*"    || category->title match $searchQuery + "*"  )] | score(  boost(name match $searchQuery + "*", 3),  boost(category->title match $searchQuery + "*", 2),  boost(description match $searchQuery + "*", 1)) | order(_score desc) {  _id,  _score,  name,  "slug": slug.current,  price,  "image": images[0]{    asset->{      _id,      url    },    hotspot  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type SEARCH_PRODUCTS_QUERYResult = Array<never>;
-// Variable: FILTER_PRODUCTS_BY_NAME_QUERY
-// Query: *[  _type == "product"  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")  && ($inStock == false || stock > 0)] | order(name asc) {  _id,  name,  "slug": slug.current,  price,  "images": images[0...4]{    _key,    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FILTER_PRODUCTS_BY_NAME_QUERYResult = Array<never>;
-// Variable: FILTER_PRODUCTS_BY_PRICE_ASC_QUERY
-// Query: *[  _type == "product"  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")  && ($inStock == false || stock > 0)] | order(price asc) {  _id,  name,  "slug": slug.current,  price,  "images": images[0...4]{    _key,    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FILTER_PRODUCTS_BY_PRICE_ASC_QUERYResult = Array<never>;
-// Variable: FILTER_PRODUCTS_BY_PRICE_DESC_QUERY
-// Query: *[  _type == "product"  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")  && ($inStock == false || stock > 0)] | order(price desc) {  _id,  name,  "slug": slug.current,  price,  "images": images[0...4]{    _key,    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FILTER_PRODUCTS_BY_PRICE_DESC_QUERYResult = Array<never>;
-// Variable: FILTER_PRODUCTS_BY_YEAR_DESC_QUERY
-// Query: *[  _type == "product"  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")  && ($inStock == false || stock > 0)] | order(year desc, name asc) {  _id,  name,  "slug": slug.current,  price,  "images": images[0...4]{    _key,    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FILTER_PRODUCTS_BY_YEAR_DESC_QUERYResult = Array<never>;
-// Variable: FILTER_PRODUCTS_BY_RELEVANCE_QUERY
-// Query: *[  _type == "product"  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")  && ($inStock == false || stock > 0)] | score(  boost(name match $searchQuery + "*", 3),  boost(category->title match $searchQuery + "*", 2),  boost(description match $searchQuery + "*", 1)) | order(_score desc, name asc) {  _id,  name,  "slug": slug.current,  price,  "images": images[0...4]{    _key,    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock}
-export type FILTER_PRODUCTS_BY_RELEVANCE_QUERYResult = Array<never>;
-// Variable: PRODUCTS_BY_IDS_QUERY
-// Query: *[  _type == "product"  && _id in $ids] {  _id,  name,  "slug": slug.current,  price,  "image": images[0]{    asset->{      _id,      url    },    hotspot  },  stock}
-export type PRODUCTS_BY_IDS_QUERYResult = Array<never>;
-// Variable: LOW_STOCK_PRODUCTS_QUERY
-// Query: *[  _type == "product"  && stock > 0  && stock <= 5] | order(stock asc) {  _id,  name,  "slug": slug.current,  stock,  "image": images[0]{    asset->{      _id,      url    }  }}
-export type LOW_STOCK_PRODUCTS_QUERYResult = Array<never>;
-// Variable: OUT_OF_STOCK_PRODUCTS_QUERY
-// Query: *[  _type == "product"  && stock == 0] | order(name asc) {  _id,  name,  "slug": slug.current,  "image": images[0]{    asset->{      _id,      url    }  }}
-export type OUT_OF_STOCK_PRODUCTS_QUERYResult = Array<never>;
-// Variable: AI_SEARCH_PRODUCTS_QUERY
-// Query: *[  _type == "product"  && (    $searchQuery == ""    || name match $searchQuery + "*"    || description match $searchQuery + "*"    || category->title match $searchQuery + "*"  )  && ($categorySlug == "" || category->slug.current == $categorySlug)  && ($fuelType == "" || fuelType == $fuelType)  && ($transmission == "" || transmission == $transmission)  && ($origin == "" || origin == $origin)  && ($minPrice == 0 || price >= $minPrice)  && ($maxPrice == 0 || price <= $maxPrice)] | order(year desc, name asc) [0...20] {  _id,  name,  "slug": slug.current,  description,  price,  "image": images[0]{    asset->{      _id,      url    }  },  category->{    _id,    title,    "slug": slug.current  },  year,  fuelType,  engine,  transmission,  origin,  location,  mileage,  horsePower,  torque,  stock,  featured}
-export type AI_SEARCH_PRODUCTS_QUERYResult = Array<never>;
-
-// Source: ./lib/sanity/queries/stats.ts
-// Variable: PRODUCT_COUNT_QUERY
-// Query: count(*[_type == "product"])
-export type PRODUCT_COUNT_QUERYResult = number;
-// Variable: ORDER_COUNT_QUERY
-// Query: count(*[_type == "order"])
-export type ORDER_COUNT_QUERYResult = number;
-// Variable: TOTAL_REVENUE_QUERY
-// Query: math::sum(*[  _type == "order"  && status in ["paid", "shipped", "delivered"]].total)
-export type TOTAL_REVENUE_QUERYResult = never;
-// Variable: ORDERS_LAST_7_DAYS_QUERY
-// Query: *[  _type == "order"  && createdAt >= $startDate  && !(_id in path("drafts.**"))] | order(createdAt desc) {  _id,  orderNumber,  total,  status,  createdAt,  "itemCount": count(items),  items[]{    quantity,    priceAtPurchase,    "productName": product->name,    "productId": product->_id  }}
-export type ORDERS_LAST_7_DAYS_QUERYResult = Array<never>;
-// Variable: ORDER_STATUS_DISTRIBUTION_QUERY
-// Query: {  "paid": count(*[_type == "order" && status == "paid" && !(_id in path("drafts.**"))]),  "shipped": count(*[_type == "order" && status == "shipped" && !(_id in path("drafts.**"))]),  "delivered": count(*[_type == "order" && status == "delivered" && !(_id in path("drafts.**"))]),  "cancelled": count(*[_type == "order" && status == "cancelled" && !(_id in path("drafts.**"))])}
-export type ORDER_STATUS_DISTRIBUTION_QUERYResult = {
-  paid: number;
-  shipped: number;
-  delivered: number;
-  cancelled: number;
-};
-// Variable: TOP_SELLING_PRODUCTS_QUERY
-// Query: *[  _type == "order"  && status in ["paid", "shipped", "delivered"]  && !(_id in path("drafts.**"))] {  items[]{    "productId": product->_id,    "productName": product->name,    "productPrice": product->price,    quantity  }}.items[]
-export type TOP_SELLING_PRODUCTS_QUERYResult = Array<never>;
-// Variable: PRODUCTS_INVENTORY_QUERY
-// Query: *[_type == "product"] {  _id,  name,  price,  stock,  "category": category->title}
-export type PRODUCTS_INVENTORY_QUERYResult = Array<never>;
-// Variable: UNFULFILLED_ORDERS_QUERY
-// Query: *[  _type == "order"  && status == "paid"  && !(_id in path("drafts.**"))] | order(createdAt asc) {  _id,  orderNumber,  total,  createdAt,  email,  "itemCount": count(items)}
-export type UNFULFILLED_ORDERS_QUERYResult = Array<never>;
-// Variable: REVENUE_BY_PERIOD_QUERY
-// Query: {  "currentPeriod": math::sum(*[    _type == "order"    && status in ["paid", "shipped", "delivered"]    && createdAt >= $currentStart    && !(_id in path("drafts.**"))  ].total),  "previousPeriod": math::sum(*[    _type == "order"    && status in ["paid", "shipped", "delivered"]    && createdAt >= $previousStart    && createdAt < $currentStart    && !(_id in path("drafts.**"))  ].total),  "currentOrderCount": count(*[    _type == "order"    && createdAt >= $currentStart    && !(_id in path("drafts.**"))  ]),  "previousOrderCount": count(*[    _type == "order"    && createdAt >= $previousStart    && createdAt < $currentStart    && !(_id in path("drafts.**"))  ])}
-export type REVENUE_BY_PERIOD_QUERYResult = {
-  currentPeriod: never;
-  previousPeriod: never;
-  currentOrderCount: number;
-  previousOrderCount: number;
-};
-
-// Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
-  interface SanityQueries {
-    '*[\n  _type == "category"\n] | order(title asc) {\n  _id,\n  title,\n  "slug": slug.current,\n  "image": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_CATEGORIES_QUERYResult;
-    '*[\n  _type == "category"\n  && slug.current == $slug\n][0] {\n  _id,\n  title,\n  "slug": slug.current,\n  "image": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': CATEGORY_BY_SLUG_QUERYResult;
-    '*[\n  _type == "customer"\n  && email == $email\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}': CUSTOMER_BY_EMAIL_QUERYResult;
-    '*[\n  _type == "customer"\n  && stripeCustomerId == $stripeCustomerId\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}': CUSTOMER_BY_STRIPE_ID_QUERYResult;
-    '*[\n  _type == "order"\n  && clerkUserId == $clerkUserId\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  "itemCount": count(items),\n  "itemNames": items[].product->name,\n  "itemImages": items[].product->images[0].asset->url\n}': ORDERS_BY_USER_QUERYResult;
-    '*[\n  _type == "order"\n  && _id == $id\n][0] {\n  _id,\n  orderNumber,\n  clerkUserId,\n  email,\n  items[]{\n    _key,\n    quantity,\n    priceAtPurchase,\n    product->{\n      _id,\n      name,\n      "slug": slug.current,\n      "image": images[0]{\n        asset->{\n          _id,\n          url\n        }\n      }\n    }\n  },\n  total,\n  status,\n  address{\n    name,\n    line1,\n    line2,\n    city,\n    postcode,\n    country\n  },\n  stripePaymentId,\n  createdAt\n}': ORDER_BY_ID_QUERYResult;
-    '*[\n  _type == "order"\n] | order(createdAt desc) [0...$limit] {\n  _id,\n  orderNumber,\n  email,\n  total,\n  status,\n  createdAt\n}': RECENT_ORDERS_QUERYResult;
-    '*[\n  _type == "order"\n  && stripePaymentId == $stripePaymentId\n][0]{ _id }': ORDER_BY_STRIPE_PAYMENT_ID_QUERYResult;
-    '*[\n  _type == "product"\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': ALL_PRODUCTS_QUERYResult;
-    '*[\n  _type == "product"\n  && featured == true\n  && stock > 0\n] | order(year desc, name asc) [0...6] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FEATURED_PRODUCTS_QUERYResult;
-    '*[\n  _type == "product"\n  && category->slug.current == $categorySlug\n] | order(year desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n  stock\n}': PRODUCTS_BY_CATEGORY_QUERYResult;
-    '*[\n  _type == "product"\n  && slug.current == $slug\n][0] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': PRODUCT_BY_SLUG_QUERYResult;
-    '*[\n  _type == "product"\n  && (\n    name match $searchQuery + "*"\n    || description match $searchQuery + "*"\n    || category->title match $searchQuery + "*"\n  )\n] | score(\n  boost(name match $searchQuery + "*", 3),\n  boost(category->title match $searchQuery + "*", 2),\n  boost(description match $searchQuery + "*", 1)\n) | order(_score desc) {\n  _id,\n  _score,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': SEARCH_PRODUCTS_QUERYResult;
-    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_NAME_QUERYResult;
-    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(price asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_PRICE_ASC_QUERYResult;
-    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(price desc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_PRICE_DESC_QUERYResult;
-    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(year desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_YEAR_DESC_QUERYResult;
-    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | score(\n  boost(name match $searchQuery + "*", 3),\n  boost(category->title match $searchQuery + "*", 2),\n  boost(description match $searchQuery + "*", 1)\n) | order(_score desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_RELEVANCE_QUERYResult;
-    '*[\n  _type == "product"\n  && _id in $ids\n] {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  stock\n}': PRODUCTS_BY_IDS_QUERYResult;
-    '*[\n  _type == "product"\n  && stock > 0\n  && stock <= 5\n] | order(stock asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  stock,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}': LOW_STOCK_PRODUCTS_QUERYResult;
-    '*[\n  _type == "product"\n  && stock == 0\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}': OUT_OF_STOCK_PRODUCTS_QUERYResult;
-    '*[\n  _type == "product"\n  && (\n    $searchQuery == ""\n    || name match $searchQuery + "*"\n    || description match $searchQuery + "*"\n\n    || category->title match $searchQuery + "*"\n  )\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n] | order(year desc, name asc) [0...20] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': AI_SEARCH_PRODUCTS_QUERYResult;
-    'count(*[_type == "product"])': PRODUCT_COUNT_QUERYResult;
-    'count(*[_type == "order"])': ORDER_COUNT_QUERYResult;
-    'math::sum(*[\n  _type == "order"\n  && status in ["paid", "shipped", "delivered"]\n].total)': TOTAL_REVENUE_QUERYResult;
-    '*[\n  _type == "order"\n  && createdAt >= $startDate\n  && !(_id in path("drafts.**"))\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  "itemCount": count(items),\n  items[]{\n    quantity,\n    priceAtPurchase,\n    "productName": product->name,\n    "productId": product->_id\n  }\n}': ORDERS_LAST_7_DAYS_QUERYResult;
-    '{\n  "paid": count(*[_type == "order" && status == "paid" && !(_id in path("drafts.**"))]),\n  "shipped": count(*[_type == "order" && status == "shipped" && !(_id in path("drafts.**"))]),\n  "delivered": count(*[_type == "order" && status == "delivered" && !(_id in path("drafts.**"))]),\n  "cancelled": count(*[_type == "order" && status == "cancelled" && !(_id in path("drafts.**"))])\n}': ORDER_STATUS_DISTRIBUTION_QUERYResult;
-    '*[\n  _type == "order"\n  && status in ["paid", "shipped", "delivered"]\n  && !(_id in path("drafts.**"))\n] {\n  items[]{\n    "productId": product->_id,\n    "productName": product->name,\n    "productPrice": product->price,\n    quantity\n  }\n}.items[]': TOP_SELLING_PRODUCTS_QUERYResult;
-    '*[_type == "product"] {\n  _id,\n  name,\n  price,\n  stock,\n  "category": category->title\n}': PRODUCTS_INVENTORY_QUERYResult;
-    '*[\n  _type == "order"\n  && status == "paid"\n  && !(_id in path("drafts.**"))\n] | order(createdAt asc) {\n  _id,\n  orderNumber,\n  total,\n  createdAt,\n  email,\n  "itemCount": count(items)\n}': UNFULFILLED_ORDERS_QUERYResult;
-    '{\n  "currentPeriod": math::sum(*[\n    _type == "order"\n    && status in ["paid", "shipped", "delivered"]\n    && createdAt >= $currentStart\n    && !(_id in path("drafts.**"))\n  ].total),\n  "previousPeriod": math::sum(*[\n    _type == "order"\n    && status in ["paid", "shipped", "delivered"]\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path("drafts.**"))\n  ].total),\n  "currentOrderCount": count(*[\n    _type == "order"\n    && createdAt >= $currentStart\n    && !(_id in path("drafts.**"))\n  ]),\n  "previousOrderCount": count(*[\n    _type == "order"\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path("drafts.**"))\n  ])\n}': REVENUE_BY_PERIOD_QUERYResult;
-  }
-}

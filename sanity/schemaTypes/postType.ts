@@ -80,6 +80,13 @@ export const postType = defineType({
       type: "array",
       of: [{ type: "block" }],
     }),
+    defineField({
+      name: "aiContext",
+      title: "AI Context (internal — not shown on site)",
+      type: "text",
+      description:
+        "Freeform notes for the chatbot: dates, caveats, or details not yet finalized for public copy. Never rendered on the website — only queried by the AI chatbot.",
+    }),
   ],
   preview: {
     select: {

@@ -1,7 +1,6 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import { postType } from "./postType";
-import { programType } from "./programType";
 import { eventType } from "./eventType";
 import { careerType } from "./careerType";
 import { careerApplicationType } from "./careerApplicationType";
@@ -29,7 +28,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // Blog
     postType,
     // Core content
-    programType,
     eventType,
     careerType,
     careerApplicationType,
