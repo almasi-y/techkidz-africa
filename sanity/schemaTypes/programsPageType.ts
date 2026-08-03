@@ -91,6 +91,13 @@ export const programsPageType = defineType({
       of: [{ type: "block" }],
       description: "Detailed information about the program (rich text content)",
     }),
+    defineField({
+      name: "aiContext",
+      title: "AI Context (internal — not shown on site)",
+      type: "text",
+      description:
+        "Freeform notes for the chatbot: dates, caveats, or details not yet finalized for public copy. Never rendered on the website — only queried by the AI chatbot.",
+    }),
   ],
   preview: {
     select: {

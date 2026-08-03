@@ -27,7 +27,8 @@ export const getPrograms = tool({
                 title,
                 description,
                 href,
-                iconName
+                iconName,
+                aiContext
             }
         `);
     return { programs };
@@ -57,6 +58,7 @@ export const getProgramDetails = tool({
                 description,
                 href,
                 iconName,
+                aiContext,
                 "contentText": pt::text(content)
             }
         `,
@@ -75,29 +77,48 @@ export const getProgramDetails = tool({
  */
 export const getEvents = tool({
   description:
-    "Get upcoming events at Tech Kidz Africa. Use this when users ask about events, workshops, meetups, or activities.",
+    "Get events at Tech Kidz Africa - both upcoming events and those from the last 6 months. Use this when users ask about events, workshops, meetups, or activities, including ones that have already happened.",
   inputSchema: z.object({
     limit: z.number().optional().describe("Number of events to fetch"),
   }),
   execute: async ({ limit = 5 }) => {
     const now = new Date().toISOString();
-    const events = await sanityClient.fetch(
-      `
-            *[_type == "event" && date >= $now] | order(date asc)[0...$limit] {
-                _id,
-                title,
-                "slug": slug.current,
-                date,
-                endDate,
-                location,
-                isVirtual,
-                registrationLink,
-                isFeatured
-            }
-        `,
-      { now, limit },
-    );
-    return { events, totalCount: events.length };
+    const sixMonthsAgo = new Date(
+      Date.now() - 6 * 30 * 24 * 60 * 60 * 1000,
+    ).toISOString();
+
+    const projection = `{
+        _id,
+        title,
+        "slug": slug.current,
+        description,
+        date,
+        endDate,
+        location,
+        isVirtual,
+        registrationLink,
+        isFeatured,
+        aiContext
+    }`;
+
+    const [upcoming, past] = await Promise.all([
+      sanityClient.fetch(
+        `*[_type == "event" && date >= $now] | order(date asc)[0...$limit] ${projection}`,
+        { now, limit },
+      ),
+      sanityClient.fetch(
+        `*[_type == "event" && date < $now && date >= $sixMonthsAgo] | order(date desc)[0...$limit] ${projection}`,
+        { now, sixMonthsAgo, limit },
+      ),
+    ]);
+
+    return {
+      upcomingEvents: upcoming,
+      pastEvents: past,
+      upcomingCount: upcoming.length,
+      pastCount: past.length,
+      totalCount: upcoming.length + past.length,
+    };
   },
 });
 
@@ -118,7 +139,8 @@ export const getTeamMembers = tool({
                 role,
                 bio,
                 linkedin,
-                twitter
+                twitter,
+                aiContext
             }
         `);
     return { members };
@@ -144,7 +166,8 @@ export const getCareers = tool({
                 type,
                 deadline,
                 requirements,
-                responsibilities
+                responsibilities,
+                aiContext
             }
         `);
     return { careers, totalCount: careers.length };
@@ -167,7 +190,8 @@ export const getImpactStats = tool({
                 value,
                 label,
                 description,
-                iconName
+                iconName,
+                aiContext
             }
         `);
     return { stats };
@@ -189,7 +213,8 @@ export const getProjects = tool({
                 _id,
                 title,
                 "slug": slug.current,
-                description
+                description,
+                aiContext
             }
         `);
     return { projects };
@@ -217,6 +242,7 @@ export const getProjectDetails = tool({
                 title,
                 "slug": slug.current,
                 description,
+                aiContext,
                 sections[] {
                     badge,
                     title,
@@ -263,6 +289,7 @@ export const getBlogs = tool({
                     "slug": slug.current,
                     excerpt,
                     publishedAt,
+                    aiContext,
                     author {
                         name
                     }
@@ -278,6 +305,7 @@ export const getBlogs = tool({
                     "slug": slug.current,
                     excerpt,
                     publishedAt,
+                    aiContext,
                     author {
                         name
                     }
@@ -311,6 +339,7 @@ export const getBlogDetails = tool({
                 "slug": slug.current,
                 excerpt,
                 publishedAt,
+                aiContext,
                 author {
                     name
                 },
