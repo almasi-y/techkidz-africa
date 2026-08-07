@@ -1,4 +1,5 @@
-import { generateText, gateway } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { generateText } from "ai";
 import { createClient } from "next-sanity";
 import { apiVersion, dataset, projectId } from "@/sanity/env";
 
@@ -74,7 +75,7 @@ export async function GET() {
     };
 
     const { text } = await generateText({
-      model: gateway("google/gemini-2.5-flash"),
+      model: anthropic("claude-haiku-4-5"),
       system: `You are a website analytics expert for Tech Kidz Africa. Analyze the provided data and generate actionable insights.
 
 Your response must be valid JSON:

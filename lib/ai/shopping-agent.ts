@@ -1,4 +1,5 @@
-import { gateway, ToolLoopAgent } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { ToolLoopAgent } from "ai";
 import { sanityTools } from "./sanity-tools";
 
 interface HubAgentOptions {
@@ -72,7 +73,7 @@ When mentioning pages, use these exact links:
  */
 export function createHubAgent(_options: HubAgentOptions) {
   return new ToolLoopAgent({
-    model: gateway("google/gemini-2.5-flash"),
+    model: anthropic("claude-haiku-4-5"),
     instructions,
     tools: sanityTools,
   });

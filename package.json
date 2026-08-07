@@ -14,6 +14,7 @@
     "seed:impact-stats": "node scripts/seed-impact-stats.mjs"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "3.0.105",
     "@ai-sdk/cohere": "3.0.0-beta.44",
     "@ai-sdk/openai": "3.0.0-beta.112",
     "@ai-sdk/react": "3.0.0-beta.172",
